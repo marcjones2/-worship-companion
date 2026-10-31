@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Worship Companion Lite</title><meta name="theme-color" content="#0b1018"><style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#0b1018;color:#eef2f8}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button,select,input,textarea{color:inherit}button{cursor:pointer;border:1px solid #394252;background:#202938;border-radius:12px;padding:11px 15px}button:hover{background:#303e53}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #8eb8ff}button.primary{background:#6d9df5;color:#09111e;font-weight:700;border-color:#6d9df5}.wrap{max-width:1150px;margin:auto;padding:18px 18px 70px}.top,.toolbar,.line,.actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.top{margin-bottom:24px}.brand{font-size:21px;font-weight:750}.sub{color:#9cabc2;font-size:13px}.panel{background:#151d29;border:1px solid #2d3848;border-radius:18px;padding:18px;margin-bottom:16px}.control{display:flex;gap:8px;align-items:center}.key{font-size:27px;min-width:54px;text-align:center;font-weight:800}.seg{display:flex;background:#0c1420;border:1px solid #303d50;border-radius:13px;padding:4px}.seg button{border:0;background:transparent;padding:10px 14px}.seg button.active{background:#35455f}.small{font-size:13px;color:#9aaac1}.chart{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}.chord{background:#263140;border:1px solid #354458;border-radius:12px;text-align:center;padding:24px 4px;font-size:clamp(22px,3.4vw,42px);font-weight:750;overflow-wrap:anywhere}.section{margin:20px 0 8px;font-weight:700;color:#a9c6fa;letter-spacing:.03em}.chartbox{min-height:180px}input,textarea,select{background:#0d1623;border:1px solid #3a4759;border-radius:10px;padding:12px;width:100%}label{display:block;color:#c2ccdb;font-size:13px;margin-bottom:7px}textarea{min-height:105px;resize:vertical;line-height:1.6}details{margin-top:15px}summary{cursor:pointer;color:#b8cef7;font-weight:650} .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.notice{color:#e5bb7c;font-size:13px;min-height:18px}.saved{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.saved select{max-width:360px}.hidden{display:none}.help{font-size:13px;color:#a8b6ca;line-height:1.6}.footer{color:#788ba6;font-size:12px;margin-top:20px} @media(max-width:650px){.chart{grid-template-columns:repeat(2,minmax(0,1fr))}.chord{padding:22px 3px}.formgrid{grid-template-columns:1fr}.wrap{padding:12px 12px 50px}.panel{padding:14px}.brand{font-size:19px}}@media(min-width:900px){.stage .chord{font-size:56px;padding:35px 5px}.stage .chart{gap:15px}} 
+ .ocr-preview{max-width:100%;max-height:320px;object-fit:contain;border-radius:10px;border:1px solid #394252;margin:12px 0}.ocr-result{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;min-height:190px}.status{font-size:13px;color:#b8cef7;margin-top:8px;white-space:pre-wrap}.import-note{font-size:12px;color:#a8b6ca;margin:10px 0}  .tabs{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap}.tabs button.active{background:#35455f;border-color:#82aaff}.tabpane.hidden{display:none}.diagramgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.diagramcard{background:#101925;border:1px solid #334156;border-radius:14px;padding:16px}.keyboard{display:flex;position:relative;height:112px;max-width:560px;margin:10px 0 20px}.whitekey{flex:1;background:#e7edf5;border:1px solid #4a5667;border-radius:0 0 5px 5px;position:relative}.whitekey.on{background:#84b8ff}.blackkey{position:absolute;top:0;width:7%;height:62%;background:#151c29;border:1px solid #4b5667;border-radius:0 0 4px 4px;z-index:2}.blackkey.on{background:#4b85dd}.fret{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;max-width:440px}.fret span{padding:10px 1px;text-align:center;border:1px solid #42516a;border-radius:5px;font-size:12px}.fret .on{background:#315b91;color:white}.instrument-row{display:flex;gap:8px;flex-wrap:wrap}.instrument-row button.active{background:#35455f;border-color:#82aaff} .chord.pick{cursor:pointer} .chord.pick:hover{border-color:#90b8ff} </style></head><body><main class="wrap"><header class="top"><div><div class="brand">♫ Worship Companion <span class="small">Lite V2.0</span></div><div class="sub">Chords • Nashville numbers • Instant transposition</div></div><button id="stageBtn">⛶ Large view</button></header>
+<nav class="tabs" aria-label="App sections"><button class="active" data-tab="chords">♫ Chords</button><button data-tab="notes">✎ My Notes</button><button data-tab="diagrams">♬ Diagrams</button><button data-tab="scales">♯ Scales</button></nav><div id="pane-chords" class="tabpane"><section class="panel"><div class="toolbar"><div class="control"><span class="small">Key</span><button id="down" aria-label="Transpose down a semitone">−</button><span class="key" id="keyLabel">A</span><button id="up" aria-label="Transpose up a semitone">+</button></div><div class="seg"><button id="chordsBtn" class="active">Chords</button><button id="numbersBtn">Numbers</button></div></div><div class="small" style="margin-top:12px">Tap + or − to transpose one semitone. Nashville numbers stay unchanged.</div></section>
+<section class="panel"><div class="line"><div><strong id="songTitle">New song</strong><div class="small" id="songMeta">Original key: A</div></div><button id="editBtn">✎ Edit song</button></div><div class="chartbox" id="chart"></div><div class="notice" id="notice"></div></section>
+<section class="panel"><div class="line"><strong>Saved songs</strong><span class="small">Stored on this device</span></div><div class="saved" style="margin-top:12px"><select id="songPicker" aria-label="Saved songs"></select><button id="newBtn">+ New</button><button id="importBtn">📷 Screenshot</button><button id="deleteBtn">Delete</button></div><details id="importer"><summary>Screenshot chord importer</summary><p class="help">Upload a chord-sheet screenshot. Recognition runs in your browser and extracts chord lines and section headings, leaving out lyrics. Review the sequence before saving. Only import material you are permitted to use.</p><div class="formgrid"><div><label for="shotTitle">Song title</label><input id="shotTitle" placeholder="e.g. Way Maker"></div><div><label for="shotKey">Key on screenshot</label><select id="shotKey"></select></div></div><div style="margin-top:12px"><label for="shotFile">Screenshot (PNG, JPG or WebP)</label><input id="shotFile" type="file" accept="image/png,image/jpeg,image/webp"></div><img id="shotPreview" class="ocr-preview hidden" alt="Uploaded screenshot preview"><div class="actions" style="margin-top:10px"><button id="scanBtn" class="primary">Recognise chords</button><span class="status" id="scanStatus" role="status"></span></div><div style="margin-top:14px"><label for="shotResult">Extracted chord sequence (editable)</label><textarea id="shotResult" class="ocr-result" spellcheck="false" placeholder="Intro:
+A E B C#m
+Verse:
+A E
+B C#m"></textarea></div><p class="import-note">Check the sequence and key carefully. OCR can miss chords, confuse B with 8, or lose bar divisions. Repeated sections must be verified against the screenshot.</p><div class="actions"><button id="importSave" class="primary">Save chord sequence</button><button id="importCancel">Close</button></div></details><details id="editor"><summary>Song editor</summary><div class="formgrid"><div><label for="title">Song title</label><input id="title" placeholder="e.g. Sunday opening song"></div><div><label for="originalKey">Original key</label><select id="originalKey"></select></div></div><div class="formgrid"><div><label for="entryMode">Enter progression as</label><select id="entryMode"><option value="chords">Chords</option><option value="numbers">Nashville numbers</option></select></div><div><label>Quick example</label><button id="exampleBtn" style="width:100%">Insert sample progression</button></div></div><div style="margin-top:14px"><label for="progression">Chord sequence (spaces or | between chords; sections on their own line)</label><textarea id="progression" spellcheck="false"></textarea></div><div class="help">Example: <code>A E F#m D</code> or <code>1 5 6m 4</code>. Use section headings such as <code>Verse:</code> and <code>Chorus:</code>. Supports common chords, 7ths, sus chords and slash chords. Number notation supports degrees such as <code>5/7</code> and <code>4maj7</code>.</div><div class="actions" style="margin-top:14px"><button class="primary" id="saveBtn">Save song</button><button id="cancelBtn">Close editor</button></div></details></section></div><div id="pane-notes" class="tabpane hidden"><section class="panel"><h2>My notes</h2><p class="help">Private notes for the selected song, stored only in this browser.</p><div class="small" id="notesSong"></div><textarea id="personalNotes" rows="9" placeholder="Intro cues, guitar effects, repeats, reminders…"></textarea><p class="small" id="notesStatus">Saved automatically</p></section></div><div id="pane-diagrams" class="tabpane hidden"><section class="panel"><h2>Chord diagrams</h2><p class="help">Choose a chord from the current song, or enter any chord symbol. Piano shows chord tones; guitar shows playable chord shapes; violin shows available pitches and arpeggio guidance, not a guaranteed playable multi-stop.</p><div class="formgrid"><div><label for="diagramChord">Chord symbol</label><select id="diagramChord" aria-label="Choose chord"></select></div><div><label for="diagramInstrument">Instrument</label><select id="diagramInstrument"><option value="piano">Piano</option><option value="guitar">Guitar</option><option value="violin">Violin</option><option value="ukulele">Ukulele</option></select></div></div><div class="formgrid" style="margin-top:12px"><div><label for="guitarVoicing" id="voicingLabel">Guitar fingering</label><select id="guitarVoicing"><option value="open">Open / common shape</option><option value="ebarre">E-shape barre chord</option><option value="abarre">A-shape barre chord</option><option value="cshape">C-shape movable chord</option><option value="gshape">G-shape movable chord</option><option value="dshape">D-shape movable chord</option><option value="extended">Extended / worship voicing</option></select></div></div><div id="diagramOutput" style="margin-top:16px" aria-live="polite"></div></section></div><div id="pane-scales" class="tabpane hidden"><section class="panel"><h2>Scales explorer</h2><p class="help">Explore scale notes on guitar, piano or violin. Root notes are highlighted in gold.</p><div class="formgrid"><div><label for="scaleRoot">Root note</label><select id="scaleRoot"></select></div><div><label for="scaleType">Scale</label><select id="scaleType"></select></div></div><div class="formgrid" style="margin-top:12px"><div><label for="scaleInstrument">Instrument</label><select id="scaleInstrument"><option value="guitar">Guitar</option><option value="piano">Piano</option><option value="violin">Violin</option></select></div><div><label for="scalePosition">Fretboard range</label><select id="scalePosition"><option value="all">Full neck (0–12)</option><option value="0">Frets 0–4</option><option value="1">Frets 1–5</option><option value="3">Frets 3–7</option><option value="5">Frets 5–9</option><option value="7">Frets 7–11</option><option value="8">Frets 8–12</option></select></div></div><div class="actions" style="margin-top:12px"><button id="scaleSongKey">Use song key</button></div><div id="scaleOutput" style="margin-top:16px"></div></section></div><div class="footer">Offline-friendly single-file prototype. Songs are saved only in this browser. Back up important progressions separately before clearing browser data.</div></main>
+<script>
+(()=>{'use strict';
+const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];const FLAT={1:'Db',3:'Eb',6:'Gb',8:'Ab',10:'Bb'};const SHARP={1:'C#',3:'D#',6:'F#',8:'G#',10:'A#'};const DEG=[0,2,4,5,7,9,11];const KEYLIST=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];const KEYPC=[0,1,2,3,4,5,6,7,8,9,10,11];const STORAGE='worship-companion-lite-v1';const $=id=>document.getElementById(id);const pc=x=>((x%12)+12)%12;const notePC=s=>{const m=/^([A-G])([#b]?)$/.exec(s);if(!m)return null;return pc(({C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]])+(m[2]==='#'?1:m[2]==='b'?-1:0))};const preferSharp=k=>[2,4,7,9,11].includes(k);const note=(p,k)=>preferSharp(k)?(SHARP[pc(p)]||N[pc(p)]):(FLAT[pc(p)]||N[pc(p)]);
+function parseChord(token){const m=/^([A-G][#b]?)([^/\s]*)(?:\/([A-G][#b]?))?$/.exec(token);if(!m)return null;const root=notePC(m[1]);const bass=m[3]?notePC(m[3]):null;if(root===null||m[3]&&bass===null)return null;return{root,suffix:m[2],bass};}
+function parseNumber(token){const m=/^([1-7])((?:maj|dim|sus|add|m|M|°|ø|\+|\d|#|b|\(|\))*)(?:\/([1-7]))?$/.exec(token);if(!m)return null;return{deg:+m[1],suffix:m[2]||'',bass:m[3]?+m[3]:null};}
+function isSection(s){return /^\s*(?:\[[^\]]+\]|[^\s|:][^|]*:)\s*$/.test(s)}
+function tokenize(text){return text.split(/\r?\n/).flatMap(line=>{if(!line.trim())return[];if(isSection(line))return[{section:line.trim().replace(/^\[|\]$|:$/g,'')}];return line.replace(/\|/g,' ').trim().split(/\s+/).map(t=>({token:t}));});}
+let songs=[];try{const saved=JSON.parse(localStorage.getItem(STORAGE));if(Array.isArray(saved))songs=saved;}catch{};if(!songs.length)songs=[{id:'demo',title:'Sample progression',original:9,entry:'chords',text:'Intro:\nA E F#m D\nVerse:\nA E B C#m\nChorus:\nD A E F#m'}];let current=songs[0].id;let key=songs[0].original;let mode='chords';let editingNew=false;const currentSong=()=>songs.find(s=>s.id===current);const persist=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(songs));$('notice').textContent='';}catch{$('notice').textContent='Could not save to browser storage. Please copy your progression to a safe place.'}};
+function asNumbers(t,s){if(s.entry==='numbers')return t;const c=parseChord(t);if(!c)return t;const interval=pc(c.root-s.original);let degree=DEG.indexOf(interval);if(degree<0)return t;let out=''+(degree+1)+c.suffix;if(c.bass!==null){const bd=DEG.indexOf(pc(c.bass-s.original));out+='/'+(bd<0?note(c.bass,s.original):bd+1)}return out;}
+function asChords(t,s){if(s.entry==='numbers'){const n=parseNumber(t);if(!n)return t;let out=note(s.original+DEG[n.deg-1],s.original)+n.suffix;if(n.bass)out+='/'+note(s.original+DEG[n.bass-1],s.original);return transposeChord(out,s.original,key)}return transposeChord(t,s.original,key)}
+function transposeChord(t,from,to){const c=parseChord(t);if(!c)return t;const d=pc(to-from);return note(c.root+d,to)+c.suffix+(c.bass===null?'':'/'+note(c.bass+d,to));}
+function render(){const s=currentSong();if(!s)return;$('keyLabel').textContent=note(key,key);$('songTitle').textContent=s.title;$('songMeta').textContent='Original key: '+note(s.original,s.original);$('chordsBtn').classList.toggle('active',mode==='chords');$('numbersBtn').classList.toggle('active',mode==='numbers');$('chart').replaceChildren();let grid=null;for(const part of tokenize(s.text)){if(part.section){const heading=document.createElement('div');heading.className='section';heading.textContent=part.section;$('chart').appendChild(heading);grid=null;continue;}if(!grid){grid=document.createElement('div');grid.className='chart';$('chart').appendChild(grid)}const el=document.createElement('div');el.className='chord';el.textContent=mode==='numbers'?asNumbers(part.token,s):asChords(part.token,s);grid.appendChild(el);el.classList.add('pick');el.title='Tap to view chord diagram';el.addEventListener('click',()=>{if(mode==='chords'){populateChordChoices(el.textContent);document.querySelector('[data-tab=diagrams]').click()}});} $('songPicker').replaceChildren();for(const x of songs){const o=document.createElement('option');o.value=x.id;o.textContent=x.title;$('songPicker').appendChild(o)}$('songPicker').value=current;syncNotes();}
+function populate(){const s=currentSong();$('title').value=editingNew?'':s.title;$('originalKey').value=String(editingNew?9:s.original);$('entryMode').value=editingNew?'chords':s.entry;$('progression').value=editingNew?'':s.text;}
+for(let i=0;i<12;i++){const o=document.createElement('option');o.value=String(KEYPC[i]);o.textContent=KEYLIST[i];$('originalKey').appendChild(o);$('shotKey').appendChild(o.cloneNode(true))}
+$('down').onclick=()=>{key=pc(key-1);render()};$('up').onclick=()=>{key=pc(key+1);render()};$('chordsBtn').onclick=()=>{mode='chords';render()};$('numbersBtn').onclick=()=>{mode='numbers';render()};$('stageBtn').onclick=()=>{document.body.classList.toggle('stage');$('stageBtn').textContent=document.body.classList.contains('stage')?'Normal view':'⛶ Large view'};
+$('songPicker').onchange=e=>{current=e.target.value;key=currentSong().original;editingNew=false;$('editor').open=false;render()};$('newBtn').onclick=()=>{editingNew=true;populate();$('editor').open=true;$('title').focus()};$('editBtn').onclick=()=>{editingNew=false;populate();$('editor').open=true;$('title').focus()};$('cancelBtn').onclick=()=>{$('editor').open=false};$('exampleBtn').onclick=()=>{$('progression').value=$('entryMode').value==='numbers'?'Intro:\n1 5 6m 4\nChorus:\n4 1 5 6m':'Intro:\nA E F#m D\nChorus:\nD A E F#m'};
+$('saveBtn').onclick=()=>{const title=$('title').value.trim(),text=$('progression').value.trim();if(!title||!text){$('notice').textContent='Enter a song title and chord sequence first.';return;}const original=+$('originalKey').value,entry=$('entryMode').value;const tokens=tokenize(text).filter(x=>x.token).map(x=>x.token);const bad=tokens.filter(t=>!(entry==='chords'?parseChord(t):parseNumber(t)));if(bad.length){$('notice').textContent='Check these entries: '+bad.slice(0,6).join(', ')+'. Use section headings ending with a colon.';return;}if(editingNew){current='song-'+Date.now();songs.push({id:current,title,original,entry,text})}else Object.assign(currentSong(),{title,original,entry,text});key=original;persist();editingNew=false;$('editor').open=false;render()};
+// Personal notes and instrument reference views
+const NOTES_STORAGE='worship-companion-personal-notes-v1';let personalNotes={};try{personalNotes=JSON.parse(localStorage.getItem(NOTES_STORAGE))||{}}catch{}
+function syncNotes(){const s=currentSong();if(!s)return;$('notesSong').textContent=s.title;$('personalNotes').value=personalNotes[s.id]||''}
+$('personalNotes').addEventListener('input',()=>{personalNotes[current]= $('personalNotes').value;try{localStorage.setItem(NOTES_STORAGE,JSON.stringify(personalNotes));$('notesStatus').textContent='Saved automatically'}catch{$('notesStatus').textContent='Storage unavailable: copy your notes to a safe place.'}});
+for(const btn of document.querySelectorAll('[data-tab]'))btn.addEventListener('click',()=>{for(const b of document.querySelectorAll('[data-tab]'))b.classList.toggle('active',b===btn);for(const pane of document.querySelectorAll('.tabpane'))pane.classList.add('hidden');$('pane-'+btn.dataset.tab).classList.remove('hidden');if(btn.dataset.tab==='notes')syncNotes();if(btn.dataset.tab==='diagrams'){populateChordChoices();renderDiagram()}});
+const formulas={
+'':[0,4,7],m:[0,3,7],'5':[0,7],sus2:[0,2,7],sus4:[0,5,7],'6':[0,4,7,9],m6:[0,3,7,9],'6/9':[0,4,7,9,14],add9:[0,4,7,14],'m(add9)':[0,3,7,14],'7':[0,4,7,10],maj7:[0,4,7,11],M7:[0,4,7,11],m7:[0,3,7,10],'m(maj7)':[0,3,7,11],'9':[0,4,7,10,14],maj9:[0,4,7,11,14],m9:[0,3,7,10,14],'11':[0,4,7,10,14,17],m11:[0,3,7,10,14,17],'13':[0,4,7,10,14,17,21],maj13:[0,4,7,11,14,17,21],dim:[0,3,6],dim7:[0,3,6,9],m7b5:[0,3,6,10],aug:[0,4,8],'+':[0,4,8],'7sus4':[0,5,7,10],'7b5':[0,4,6,10],'7#5':[0,4,8,10], '7b9':[0,4,7,10,13],'7#9':[0,4,7,10,15],'7#11':[0,4,7,10,14,18],'7b13':[0,4,7,10,14,20]};
+function chordTones(symbol){const c=parseChord(symbol.trim());if(!c)return null;let suffix=c.suffix;const alias={min:'m',major:'',maj:'',min7:'m7','ø':'m7b5','°':'dim','°7':'dim7',sus:'sus4',add2:'add9',mMaj7:'m(maj7)'};suffix=alias[suffix]??suffix;const intervals=formulas[suffix];if(!intervals)return {error:'This chord quality is not yet mapped. Try a standard symbol such as Cmaj7, Cm9 or G7sus4.'};const tones=[...new Set(intervals.map(n=>pc(c.root+n)))];return{root:c.root,bass:c.bass,tones,suffix}};
+function el(tag,cls,txt){const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x}
+function hasGuitarDiagram(symbol){
+ const data=chordTones(symbol);
+ return !!(data&&!data.error&&['open','ebarre','abarre','cshape','gshape','dshape','extended'].some(style=>barreDiagram(data,style)));
+}
+function populateChordChoices(wanted){
+ const sel=$('diagramChord'), previous=wanted||sel.value||'A';
+ const instrument=$('diagramInstrument').value;const guitar=instrument==='guitar',uke=instrument==='ukulele';
+ sel.replaceChildren();
+ const songGroup=document.createElement('optgroup');songGroup.label='Current song';
+ const song=currentSong();
+ const songChords=song?[...new Set(tokenize(song.text).filter(p=>p.token).map(p=>asChords(p.token,song)).filter(x=>parseChord(x)))]:[];
+ for(const c of songChords){if(!guitar&&!uke||(guitar?hasGuitarDiagram(c):hasUkuleleDiagram(c)))songGroup.append(new Option(c,c))}
+ if(songGroup.children.length)sel.append(songGroup);
+ const all=document.createElement('optgroup');all.label=guitar?'Playable guitar chords':uke?'Playable ukulele chords':'All chord variations';
+ const qualities=Object.keys(formulas).filter(q=>q!=='M7'&&q!=='+');
+ for(const root of ['C','C#','Db','D','Eb','E','F','F#','Gb','G','Ab','A','Bb','B']){
+   for(const q of qualities){const c=root+q;if(!guitar&&!uke||(guitar?hasGuitarDiagram(c):hasUkuleleDiagram(c)))all.append(new Option(c,c))}
+ }
+ if(all.children.length)sel.append(all);
+ if([...sel.options].some(o=>o.value===previous))sel.value=previous;
+ else if(sel.options.length)sel.selectedIndex=0;
+ else sel.add(new Option('No available diagrams',''));
+}
+function barreDiagram(data,style){
+const tuning=[4,9,2,7,11,4];
+const openShapes={
+'C':[-1,3,2,0,1,0], 'Cm':[-1,3,1,0,1,-1], 'C7':[-1,3,2,3,1,0], 'Cmaj7':[-1,3,2,0,0,0],
+'D':[-1,-1,0,2,3,2], 'Dm':[-1,-1,0,2,3,1], 'D7':[-1,-1,0,2,1,2], 'Dmaj7':[-1,-1,0,2,2,2],
+'E':[0,2,2,1,0,0], 'Em':[0,2,2,0,0,0], 'E7':[0,2,0,1,0,0], 'Em7':[0,2,0,0,0,0],
+'F':[-1,-1,3,2,1,1], 'Fm':[-1,-1,3,1,1,1], 'Fmaj7':[-1,-1,3,2,1,0],
+'G':[3,2,0,0,0,3], 'G7':[3,2,0,0,0,1], 'Gmaj7':[3,2,0,0,0,2],
+'A':[-1,0,2,2,2,0], 'Am':[-1,0,2,2,1,0], 'A7':[-1,0,2,0,2,0], 'Am7':[-1,0,2,0,1,0], 'Amaj7':[-1,0,2,1,2,0],
+'B7':[-1,2,1,2,0,2]
+};
+let positions,description;
+const sym=$('diagramChord').value.trim();
+if(style==='open'){
+positions=openShapes[sym];if(!positions)return null;
+description='Open / common shape';
+}else if(style==='ebarre'||style==='abarre'){
+const eShape=style==='ebarre',rootString=eShape?4:9;
+const fret=pc(data.root-rootString),base=fret===0?0:fret;
+const shapes=eShape?{'':[0,2,2,1,0,0],m:[0,2,2,0,0,0],'7':[0,2,0,1,0,0],m7:[0,2,0,0,0,0],maj7:[0,2,1,1,0,0]}:{'':[null,0,2,2,2,0],m:[null,0,2,2,1,0],'7':[null,0,2,0,2,0],m7:[null,0,2,0,1,0],maj7:[null,0,2,1,2,0]};
+const shape=shapes[data.suffix];if(!shape)return null;
+positions=shape.map(v=>v===null?-1:base+v);
+description=(eShape?'E-shape':'A-shape')+' barre';
+}
+// Additional CAGED movable major shapes in standard tuning.
+// Open-string notes become fretted notes when the shape moves up the neck.
+// These are alternate voicings, not necessarily full index-finger barres.
+if(['cshape','gshape','dshape'].includes(style)){
+ if(data.suffix!=='' || data.bass!==null)return null;
+ const templates={
+  cshape:{root:0,shape:[-1,3,2,0,1,0],label:'C-shape movable'},
+  gshape:{root:7,shape:[3,2,0,0,0,3],label:'G-shape movable'},
+  dshape:{root:2,shape:[-1,-1,0,2,3,2],label:'D-shape movable'}
+ };
+ const template=templates[style],shift=pc(data.root-template.root);
+ // Shift all sounding strings, including former open strings.
+ positions=template.shape.map(f=>f<0?-1:f+shift);
+ description=template.label;
+}
+// Extra verified, playable voicings in standard E A D G B e tuning.
+// Each chord is checked against the selected chord's actual pitch classes below.
+if(style==='extended'){
+ const common={
+ 'Cadd9':[-1,3,2,0,3,0], 'Cmaj9':[-1,3,2,4,3,0], 'Csus2':[-1,3,0,0,1,3], 'Csus4':[-1,3,3,0,1,1],
+ 'Dadd9':[-1,-1,0,2,3,0], 'Dsus2':[-1,-1,0,2,3,0], 'Dsus4':[-1,-1,0,2,3,3], 'D6':[-1,-1,0,2,0,2],
+ 'Eadd9':[0,2,4,1,0,0], 'Esus4':[0,2,2,2,0,0], 'Esus2':[0,2,4,4,0,0], 'E6':[0,2,2,1,2,0],
+ 'Gadd9':[3,0,0,2,0,3], 'Gsus4':[3,3,0,0,1,3], 'G6':[3,2,0,0,0,0],
+ 'Aadd9':[-1,0,2,4,2,0], 'Asus2':[-1,0,2,2,0,0], 'Asus4':[-1,0,2,2,3,0], 'A6':[-1,0,2,2,2,2],
+ 'Am(add9)':[-1,0,2,4,1,0], 'Am9':[-1,0,2,4,1,3],
+ 'B7sus4':[-1,2,2,2,0,2], 'B7':[-1,2,1,2,0,2],
+ 'Cdim7':[-1,3,4,2,4,-1], 'Caug':[-1,3,2,1,1,0],
+ 'G/B':[-1,2,0,0,0,3], 'D/F#':[2,-1,0,2,3,2], 'A/C#':[-1,4,2,2,2,0], 'C/E':[0,3,2,0,1,0],
+ 'D/A':[-1,0,0,2,3,2], 'F/A':[-1,0,3,2,1,1],
+ 'C9':[-1,3,2,3,3,3], 'C13':[-1,3,2,3,3,5], 'C7b9':[-1,3,2,3,2,-1],
+ 'E7#9':[0,7,6,7,8,-1], 'E7b9':[0,2,0,1,0,1], 'E7#5':[0,3,0,1,1,0]
+ };
+ positions=common[sym];
+ if(!positions){
+  // Compact movable voicings; base chord is E, shifted up the fretboard.
+  const movable={
+   '7sus4':[0,2,0,2,0,0], 'sus4':[0,2,2,2,0,0],
+   'sus2':[0,2,4,4,0,0], '6':[0,2,2,1,2,0],
+   'm6':[0,2,2,0,2,0], 'add9':[0,2,4,1,0,0],
+   '9':[0,2,0,1,0,2], 'm9':[0,2,0,0,0,2],
+   'dim':[0,1,2,0,-1,-1], 'dim7':[0,1,2,0,2,0],
+   'aug':[0,3,2,1,1,0], 'm7b5':[0,1,0,0,3,0],
+   '7b9':[0,2,0,1,0,1], '7#9':[0,7,6,7,8,-1]
+  };
+  const pattern=movable[data.suffix];
+  if(pattern){const shift=pc(data.root-4);positions=pattern.map(v=>v<0?-1:v+shift)}
+ }
+ if(!positions)return null;
+ description='Extended / worship voicing';
+}
+const first=positions.findIndex(v=>v>=0);
+if(first<0||data.bass!==null&&pc(tuning[first]+positions[first])!==data.bass)return null;
+// Reject voicings that introduce pitches outside the selected chord.
+if(positions.some((f,i)=>f>=0&&!data.tones.includes(pc(tuning[i]+f))))return null;
+// Require every essential pitch class for simple chords; for extensions, omit only optional tones.
+const played=new Set(positions.map((f,i)=>f<0?null:pc(tuning[i]+f)).filter(x=>x!==null));
+if(!played.has(data.root))return null;
+const fretted=positions.filter(f=>f>0),start=fretted.length?Math.max(1,Math.min(...fretted)):1;
+const wrap=el('div','diagramcard');wrap.append(el('p','help',description+(start>1?' • fret '+start:'')));
+const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 260 205');svg.style.maxWidth='350px';svg.style.width='100%';svg.setAttribute('role','img');svg.setAttribute('aria-label',sym+' '+description+' guitar fingering '+positions.map(x=>x<0?'muted':x===0?'open':x+' fret').join(', '));
+function add(tag,attrs,content){const e=document.createElementNS(svg.namespaceURI,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(content!==undefined)e.textContent=content;svg.append(e);return e}
+for(let i=0;i<6;i++)add('line',{x1:36+i*36,y1:25,x2:36+i*36,y2:180,stroke:'#9db3d0','stroke-width':1});
+for(let i=0;i<5;i++)add('line',{x1:36,y1:25+i*38.75,x2:216,y2:25+i*38.75,stroke:'#9db3d0','stroke-width':i===0&&start===1?4:1});
+add('text',{x:6,y:51,fill:'#d6e6ff','font-size':13},start+'fr');
+positions.forEach((f,i)=>{
+const x=36+i*36;
+if(f<0||f===0){add('text',{x,y:16,'text-anchor':'middle',fill:'#e4edff','font-size':17},f<0?'×':'○');return}
+const y=25+(f-start+0.5)*38.75;
+if(y<25||y>180)return;
+add('circle',{cx:x,cy:y,r:11,fill:'#74a9ff'});
+});
+wrap.append(svg);wrap.append(el('p','help','Strings low E → high e: '+positions.map(x=>x<0?'X':x===0?'O':x).join(' – ')+'. X = muted, O = open.'));return wrap;
+}
+function updateGuitarVoicings(data){
+ const select=$('guitarVoicing');
+ const preferred=select.value;
+ const options=[['open','Open / common shape'],['ebarre','E-shape barre chord'],['abarre','A-shape barre chord'],['cshape','C-shape movable chord'],['gshape','G-shape movable chord'],['dshape','D-shape movable chord'],['extended','Extended / worship voicing']];
+ select.replaceChildren();
+ if(!data||data.error)return false;
+ for(const [id,label] of options){
+   if(barreDiagram(data,id))select.add(new Option(label,id));
+ }
+ if(!select.options.length)return false;
+ select.value=[...select.options].some(o=>o.value===preferred)?preferred:select.options[0].value;
+ return true;
+}
+// Ukulele: standard high-G re-entrant tuning G4 C4 E4 A4.
+// Search compact four-string voicings; only display actual chord tones.
+const ukeTuning=[7,0,4,9];
+function ukuleleShapes(data){
+ if(!data||data.error)return [];
+ const required=new Set([data.root]);
+ // Require the third when present; seventh for seventh-family chords.
+ const third=data.tones.find(n=>pc(n-data.root)===3||pc(n-data.root)===4);
+ if(third!==undefined)required.add(third);
+ const seventh=data.tones.find(n=>[10,11].includes(pc(n-data.root)));
+ if(seventh!==undefined)required.add(seventh);
+ if(data.bass!==null)required.add(data.bass);
+ if(required.size>4)return [];
+ const options=ukeTuning.map(open=>Array.from({length:13},(_,f)=>f).filter(f=>data.tones.includes(pc(open+f))));
+ let shapes=[];
+ for(const a of options[0])for(const b of options[1])for(const c of options[2])for(const d of options[3]){
+  const frets=[a,b,c,d],used=new Set(frets.map((f,i)=>pc(ukeTuning[i]+f)));
+  if([...required].some(n=>!used.has(n)))continue;
+  if(data.bass!==null&&pc(ukeTuning[1]+b)!==data.bass)continue; // C string as practical low bass in high-G tuning
+  const fretted=frets.filter(f=>f>0),min=Math.min(...fretted,0),max=Math.max(...fretted,0);
+  if(fretted.length&&Math.max(...fretted)-Math.min(...fretted)>3)continue;
+  if(max>12)continue;
+  const missing=data.tones.filter(n=>!used.has(n)).length;
+  // Prefer simple open positions, then compact movable shapes.
+  const score=missing*30+max*1.5+frets.filter(f=>f>0).length*.5+(fretted.length?Math.max(...fretted)-Math.min(...fretted):0);
+  shapes.push({frets,score,signature:frets.join('-')});
+ }
+ shapes.sort((x,y)=>x.score-y.score);
+ const picked=[],seen=new Set();
+ for(const shape of shapes){if(!seen.has(shape.signature)){picked.push(shape);seen.add(shape.signature)}if(picked.length===6)break}
+ return picked;
+}
+function hasUkuleleDiagram(symbol){const d=chordTones(symbol);return !!(d&&!d.error&&ukuleleShapes(d).length)}
+function renderUkuleleDiagram(data,frets){
+ const card=el('div','diagramcard');const positive=frets.filter(f=>f>0),start=positive.length?Math.max(1,Math.min(...positive)):1;
+ card.append(el('p','help','Standard ukulele • G C E A'+(start>1?' • starting at fret '+start:'')));
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 240 218');svg.style.width='100%';svg.style.maxWidth='330px';svg.setAttribute('role','img');svg.setAttribute('aria-label','Ukulele G C E A fingering, frets '+frets.join(', '));
+ const add=(tag,attrs,content)=>{const e=document.createElementNS(svg.namespaceURI,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(content!==undefined)e.textContent=content;svg.append(e)};
+ for(let i=0;i<4;i++){const x=53+i*43;add('line',{x1:x,y1:31,x2:x,y2:184,stroke:'#9db3d0','stroke-width':1});add('text',{x,y:207,'text-anchor':'middle',fill:'#b9cce4','font-size':13},['G','C','E','A'][i]);}
+ for(let i=0;i<5;i++)add('line',{x1:53,y1:31+i*38.25,x2:182,y2:31+i*38.25,stroke:'#9db3d0','stroke-width':i===0&&start===1?4:1});
+ add('text',{x:8,y:56,fill:'#d6e6ff','font-size':13},start+'fr');
+ frets.forEach((f,i)=>{const x=53+i*43;if(f===0){add('text',{x,y:21,'text-anchor':'middle',fill:'#e4edff','font-size':17},'○');return;}const y=31+(f-start+.5)*38.25;if(y>=31&&y<=184)add('circle',{cx:x,cy:y,r:11,fill:'#74a9ff'});});
+ card.append(svg);card.append(el('p','help','Frets (G–C–E–A): '+frets.join(' – ')+'. Open strings are marked ○.'));
+ return card;
+}
+function updateUkuleleVoicings(data){
+ const sel=$('guitarVoicing'),previous=sel.value,shapes=ukuleleShapes(data);sel.replaceChildren();
+ shapes.forEach((s,i)=>sel.add(new Option((i===0?'Recommended':'Alternative '+i)+' • '+s.frets.join('–'),'uke'+i)));
+ if([...sel.options].some(o=>o.value===previous))sel.value=previous;
+ return shapes;
+}
+function renderDiagram(){const target=$('diagramOutput');target.replaceChildren();const sym=$('diagramChord').value.trim();if(!sym){target.textContent='No guitar diagrams available.';return}const data=chordTones(sym);if(!data){target.textContent='Choose a valid chord symbol.';return}if(data.error){target.textContent=data.error;return}const instr=$('diagramInstrument').value;$('voicingLabel').textContent=instr==='ukulele'?'Ukulele fingering':'Guitar fingering';if(instr!=='guitar'&&instr!=='ukulele')$('guitarVoicing').disabled=true;const display=[...data.tones];if(data.bass!==null&&!display.includes(data.bass))display.unshift(data.bass);const names=display.map(p=>note(p,key));target.append(el('h3','',sym+' • '+instr[0].toUpperCase()+instr.slice(1)));target.append(el('p','help','Chord tones: '+names.join(' · ')+(data.bass!==null?'  |  Bass: '+note(data.bass,key):'')));
+if(instr==='piano'){const kb=el('div','keyboard');const whites=[0,2,4,5,7,9,11,12,14,16,17,19,21,23];for(const pitch of whites){const w=el('div','whitekey'+(data.tones.includes(pc(pitch))?' on':''));w.title=note(pitch,key);kb.append(w)}const blackPositions=[1,3,6,8,10,13,15,18,20,22];for(const pitch of blackPositions){const b=el('div','blackkey'+(data.tones.includes(pc(pitch))?' on':''));const left=(whites.filter(n=>n<pitch).length/14)*100-3.5;b.style.left=left+'%';b.title=note(pitch,key);kb.append(b)}target.append(kb);target.append(el('p','help','Highlighted keys show pitch classes across two octaves. Choose a comfortable inversion or voicing.'))}
+else if(instr==='guitar'){
+const available=updateGuitarVoicings(data);
+$('guitarVoicing').disabled=!available;
+if(available){
+ const diagram=barreDiagram(data,$('guitarVoicing').value);
+ if(diagram)target.append(diagram);
+}else target.append(el('p','help','No verified guitar diagram is available for this chord yet. Choose another chord.'));
+}
+else if(instr==='ukulele'){const shapes=updateUkuleleVoicings(data);$('guitarVoicing').disabled=!shapes.length;if(shapes.length){const ix=Number(($('guitarVoicing').value||'uke0').slice(3))||0;target.append(renderUkuleleDiagram(data,shapes[Math.min(ix,shapes.length-1)].frets));}else target.append(el('p','help','No supported ukulele voicing for this chord.'));}
+else{target.append(el('p','help','Violin open strings: G3 · D4 · A4 · E5. Highlighted pitch choices below can be played melodically or as an arpeggio. Double stops depend on adjacent strings, position and technique.'));const tuning=[7,2,9,4];const g=el('div','fret');for(let i=0;i<4;i++)for(let f=0;f<=5;f++){const pitch=pc(tuning[i]+f);g.append(el('span',data.tones.includes(pitch)?'on':'',(f===0?'Open':f)+' '+note(pitch,key)))}target.append(g)} }
+$('diagramChord').onchange=renderDiagram;$('diagramInstrument').onchange=()=>{populateChordChoices();renderDiagram()};$('guitarVoicing').onchange=renderDiagram;
+let shotURL=null;
+$('importBtn').onclick=()=>{$('importer').open=true;$('editor').open=false;$('shotTitle').focus()};
+$('importCancel').onclick=()=>{$('importer').open=false};
+$('shotFile').onchange=e=>{const file=e.target.files?.[0];if(shotURL){URL.revokeObjectURL(shotURL);shotURL=null}if(!file)return;if(!/^image\/(png|jpeg|webp)$/.test(file.type)||file.size>12*1024*1024){$('scanStatus').textContent='Choose a PNG/JPG/WebP smaller than 12 MB.';return}shotURL=URL.createObjectURL(file);$('shotPreview').src=shotURL;$('shotPreview').classList.remove('hidden');$('scanStatus').textContent='Ready to recognise.'};
+function ocrLibrary(){return new Promise((resolve,reject)=>{if(window.Tesseract)return resolve();const existing=document.querySelector('script[data-ocr]');if(existing){existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',()=>reject(Error('OCR library unavailable')),{once:true});return}const sc=document.createElement('script');sc.dataset.ocr='1';sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';sc.onload=resolve;sc.onerror=()=>reject(Error('Could not load OCR. Connect to the internet and retry.'));document.head.appendChild(sc)})}
+const SECTION_RE=/^(intro|verse(?:\s*\d+)?|chorus(?:\s*\d+)?|pre[- ]?chorus|bridge|interlude|outro|tag|instrumental|refrain|ending|repeat chorus)(?:\s*[:\-]\s*)?$/i;
+function cleanChordToken(t){return t.replace(/^[|:;,.\[\]{}()]+|[|:;,.\[\]{}()]+$/g,'').replace(/♯/g,'#').replace(/♭/g,'b').replace(/♮/g,'')}
+function chordFromOCR(raw){const t=cleanChordToken(raw);if(parseChord(t))return t;return null}
+function extractChords(text){const result=[];let lastSection='';for(const raw of text.split(/\r?\n/)){const line=raw.trim();if(!line)continue;const normalized=line.replace(/\s+/g,' ').replace(/^(?:\[)(.*)(?:\])$/,'$1').trim();if(SECTION_RE.test(normalized)){const sec=normalized.replace(/[:\-]\s*$/,'').replace(/\s+/g,' ');if(sec.toLowerCase()!==lastSection){result.push(sec+':');lastSection=sec.toLowerCase()}continue}
+const chunks=line.replace(/[|]/g,' ').split(/\s+/).filter(Boolean);const found=chunks.map(chordFromOCR).filter(Boolean);
+// Only take lines dominated by chord symbols. Ignore normal lyric sentences.
+const ratio=found.length/Math.max(1,chunks.length);
+const hasMusicEvidence=found.some(x=>/[#bmM0-9/°+]/.test(x))||found.length>=2;
+if(found.length&&ratio>=0.75&&(hasMusicEvidence||chunks.length===1&&/^[A-G](?:#|b)?$/.test(found[0]))){result.push(found.join(' '))}
+}
+return result.join('\n').trim()}
+$('scanBtn').onclick=async()=>{if(!shotURL){$('scanStatus').textContent='Choose a screenshot first.';return}const btn=$('scanBtn');btn.disabled=true;try{$('scanStatus').textContent='Loading OCR…';await ocrLibrary();$('scanStatus').textContent='Reading image…';const r=await window.Tesseract.recognize(shotURL,'eng',{logger:m=>{if(m.status==='recognizing text')$('scanStatus').textContent='Reading '+Math.round(m.progress*100)+'%'}});const out=extractChords(r.data.text||'');$('shotResult').value=out;$('scanStatus').textContent=out?'Ready. Review chords and sections before saving.':'No clear chord lines found. Try a larger screenshot or enter the sequence manually.'}catch(err){$('scanStatus').textContent=err.message||'Recognition failed.'}finally{btn.disabled=false}};
+$('importSave').onclick=()=>{const title=$('shotTitle').value.trim(),text=$('shotResult').value.trim();if(!title||!text){$('scanStatus').textContent='Enter a song title and check the extracted chords.';return}const bad=tokenize(text).filter(x=>x.token&&!parseChord(x.token)).map(x=>x.token);if(bad.length){$('scanStatus').textContent='Please correct unrecognised chords: '+bad.slice(0,8).join(', ');return}const original=+$('shotKey').value;current='song-'+Date.now();songs.push({id:current,title,original,entry:'chords',text});key=original;persist();$('importer').open=false;render();$('notice').textContent='Screenshot progression saved. Check it against the original.'};
+$('deleteBtn').onclick=()=>{if(songs.length===1){$('notice').textContent='Keep at least one song in the library.';return;}if(!confirm('Delete this saved song from this device?'))return;songs=songs.filter(s=>s.id!==current);current=songs[0].id;key=songs[0].original;persist();render()};
+
+// Scale explorer: pitch classes, no external dependencies.
+const SCALE_PATTERNS={
+ 'Major (Ionian)':[0,2,4,5,7,9,11], 'Natural minor (Aeolian)':[0,2,3,5,7,8,10],
+ 'Major pentatonic':[0,2,4,7,9], 'Minor pentatonic':[0,3,5,7,10],
+ 'Blues':[0,3,5,6,7,10], 'Harmonic minor':[0,2,3,5,7,8,11],
+ 'Melodic minor (ascending)':[0,2,3,5,7,9,11],
+ 'Dorian':[0,2,3,5,7,9,10], 'Phrygian':[0,1,3,5,7,8,10],
+ 'Lydian':[0,2,4,6,7,9,11], 'Mixolydian':[0,2,4,5,7,9,10],
+ 'Locrian':[0,1,3,5,6,8,10]};
+const scaleRootEl=$('scaleRoot'),scaleTypeEl=$('scaleType'),scaleInstrumentEl=$('scaleInstrument'),scalePositionEl=$('scalePosition');
+for(let i=0;i<12;i++){const o=document.createElement('option');o.value=String(i);o.textContent=note(i,i);scaleRootEl.append(o)}
+for(const name of Object.keys(SCALE_PATTERNS)){const o=document.createElement('option');o.value=name;o.textContent=name;scaleTypeEl.append(o)}
+scaleRootEl.value=String(key);scaleTypeEl.value='Major pentatonic';
+function scaleSVG(strings,root,pcs,start,end){const isGuitar=strings.length===6;const width=690,left=69,right=18,top=38,stepY=isGuitar?38:49;
+const bottom=top+(strings.length-1)*stepY,cell=(width-left-right)/(end-start+1);
+let out=`<svg viewBox="0 0 ${width} ${bottom+48}" role="img" aria-label="${isGuitar?'Guitar':'Violin'} scale fretboard, frets ${start} to ${end}" style="width:100%;height:auto;max-width:850px">`;
+for(let f=start;f<=end+1;f++){const x=left+(f-start)*cell;out+=`<line x1="${x}" y1="${top-12}" x2="${x}" y2="${bottom+12}" stroke="#65758c" stroke-width="${f===0?5:1}"/>`}
+for(let j=0;j<strings.length;j++){const y=top+j*stepY;out+=`<line x1="${left}" y1="${y}" x2="${width-right}" y2="${y}" stroke="#71839d" stroke-width="${isGuitar?1.6:1.2}"/>`;}
+for(let f=start;f<=end;f++){const x=left+(f-start+.5)*cell;out+=`<text x="${x}" y="23" fill="#aebed4" text-anchor="middle" font-size="16">${f}</text>`}
+for(let j=0;j<strings.length;j++){const y=top+j*stepY;out+=`<text x="${left-16}" y="${y+5}" fill="#c5d2e5" text-anchor="end" font-size="16">${note(strings[j],root)}</text>`;
+for(let f=start;f<=end;f++){const pitch=pc(strings[j]+f);if(!pcs.includes(pitch))continue;const x=left+(f-start+.5)*cell;const isRoot=pitch===root;out+=`<circle cx="${x}" cy="${y}" r="${Math.min(16,cell*.34)}" fill="${isRoot?'#f4b35e':'#72aaff'}"/><text x="${x}" y="${y+5}" fill="#101825" text-anchor="middle" font-size="${Math.min(13,cell*.27)}" font-weight="bold">${note(pitch,root)}</text>`}}
+return out+'</svg>'}
+function scalePiano(root,pcs){const whites=[0,2,4,5,7,9,11,12,14,16,17,19,21,23],black=[1,3,6,8,10,13,15,18,20,22];const w=34;let out='<svg viewBox="0 0 476 164" role="img" aria-label="Two-octave piano keyboard with scale notes highlighted" style="width:100%;max-width:690px;height:auto">';
+for(let i=0;i<whites.length;i++){const pitch=pc(whites[i]);out+=`<rect x="${i*w+1}" y="8" width="${w-2}" height="139" rx="3" fill="${pcs.includes(pitch)?(pitch===root?'#f4b35e':'#88b7ff'):'#f2f5fa'}" stroke="#39445a"/>`}
+for(const n of black){const pitch=pc(n),before=whites.filter(x=>x<n).length;const x=before*w-11;out+=`<rect x="${x}" y="8" width="22" height="85" rx="2" fill="${pcs.includes(pitch)?(pitch===root?'#f4b35e':'#3e7bc8'):'#202838'}" stroke="#10151d"/>`}
+return out+'</svg>'}
+function renderScales(){const root=Number(scaleRootEl.value),pattern=SCALE_PATTERNS[scaleTypeEl.value],pcs=pattern.map(n=>pc(root+n)),instr=scaleInstrumentEl.value,start=scalePositionEl.value==='all'?0:Number(scalePositionEl.value),end=scalePositionEl.value==='all'?12:start+4;
+const output=$('scaleOutput');output.replaceChildren();output.append(el('h3','',note(root,root)+' '+scaleTypeEl.value));output.append(el('p','help','Notes: '+pcs.map(n=>note(n,root)).join(' · ')));
+const container=el('div','diagramcard');container.style.overflowX='auto';if(instr==='piano'){container.innerHTML=scalePiano(root,pcs);scalePositionEl.disabled=true}else{scalePositionEl.disabled=false;container.innerHTML=scaleSVG(instr==='guitar'?[4,9,2,7,11,4]:[7,2,9,4],root,pcs,start,end)}output.append(container);output.append(el('p','help',instr==='guitar'?'Standard tuning E A D G B E. These are note positions, not prescribed fingerings.':instr==='violin'?'Standard tuning G D A E. Positions show pitch locations; choose practical fingerings for your position.':'Highlighted piano keys show scale pitch classes across two octaves.'))}
+for(const x of [scaleRootEl,scaleTypeEl,scaleInstrumentEl,scalePositionEl])x.addEventListener('change',renderScales);
+$('scaleSongKey').onclick=()=>{scaleRootEl.value=String(key);renderScales()};
+document.querySelector('[data-tab="scales"]').addEventListener('click',renderScales);
+renderScales();
+
+render();populateChordChoices('A');renderDiagram();})();
+</script></body></html>
